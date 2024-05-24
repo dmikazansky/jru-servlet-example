@@ -26,10 +26,22 @@ public class Field {
     }
 
     public int getEmptyFieldIndex() {
-        return field.entrySet().stream()
-                .filter(e -> e.getValue() == Sign.EMPTY)
-                .map(Map.Entry::getKey)
-                .findFirst().orElse(-1);
+        int count = 0;
+        for (Sign value : field.values()) {
+            if (value.equals(Sign.EMPTY)) {
+                count++;
+            }
+        }
+        if (count == 0) {
+            return -1;
+        } else {
+            while (true) {
+                int randomIndex = (int) (Math.random() * field.size());
+                if (field.get(randomIndex) == Sign.EMPTY) {
+                    return randomIndex;
+                }
+            }
+        }
     }
 
     public List<Sign> getFieldData() {
@@ -53,7 +65,7 @@ public class Field {
 
         for (List<Integer> winPossibility : winPossibilities) {
             if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
-                && field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))) {
+                    && field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))) {
                 return field.get(winPossibility.get(0));
             }
         }
